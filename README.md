@@ -9,19 +9,6 @@ ClarifyMeet AI is an intelligent meeting minutes generation tool that automatica
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688)
 ![Docker](https://img.shields.io/badge/docker-ready-2496ED)
 
-## 📊 Workflow
-
-```mermaid
-flowchart TD
-    A[Upload Transcript (.txt)] --> B[Validate & Extract Text]
-    B --> C[Identify Speakers/Actors]
-    C --> D[Summarize Meeting]
-    D --> E[Extract Action Items]
-    E --> F[Extract Decisions]
-    F --> G[Identify Risks]
-    G --> H[Format Structured Minutes (JSON)]
-    H --> I[Return to Frontend]
-```
 
 ## ✨ Features
 
