@@ -1,6 +1,7 @@
 """
 Configuration settings for ClarifyMeet AI application
 """
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
@@ -20,9 +21,11 @@ class Settings(BaseSettings):
     # CORS settings
     CORS_ORIGINS: list = ["*"]
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    model_config = ConfigDict(
+        env_file=".env",
+        case_sensitive=True,
+        extra="ignore"  # Allow extra fields from environment
+    )
 
 
 settings = Settings()
