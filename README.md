@@ -2,31 +2,37 @@
 
 > Transform meeting conversations into actionable insights using AI
 
-ClarifyMeet AI is an intelligent meeting minutes generation tool that automatically extracts structured information from meeting transcripts using LangGraph and Ollama.
+ClarifyMeet AI is an intelligent meeting minutes generation tool that automatically extracts structured information from meeting transcripts using **LangGraph** and **Ollama**. Simply upload a text transcript, and AI will extract summaries, action items, decisions, risks, and speaker insights!
 
 ![Status](https://img.shields.io/badge/status-ready-green)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688)
-![Docker](https://img.shields.io/badge/docker-ready-2496ED)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.31.0-FF4B4B)
+![LangGraph](https://img.shields.io/badge/LangGraph-0.0.20-green)
 
-## 📊 Workflow
+## 🎯 What Does This App Do?
+
+**Input:** A meeting transcript in plain text format  
+**Output:** Structured meeting minutes with:
+- 📋 **Executive Summary** - Key highlights from the meeting
+- ✅ **Action Items** - Tasks with owners, due dates, and priorities
+- 💡 **Decisions** - Important decisions made during the meeting
+- ⚠️ **Risks & Concerns** - Potential issues identified
+- 👥 **Speaker Analysis** - Who said what and their roles
+
+## 📊 How It Works
 
 ```mermaid
-flowchart TD
-    A[Upload Transcript (.txt)] --> B[Validate & Extract Text]
-    B --> C[Identify Speakers/Actors]
-    C --> D[Summarize Meeting]
-    D --> E[Extract Action Items]
-    E --> F[Extract Decisions]
-    F --> G[Identify Risks]
-    G --> H[Format Structured Minutes (JSON)]
-    H --> I[Return to Frontend]
-```
+flowchart LR
+    AKey Features
 
-## ✨ Features
-
-- 📤 **Easy Upload**: Drag-and-drop `.txt` transcript files
-- 🤖 **AI-Powered Extraction**: Uses LangGraph + Ollama (TinyLlama) for intelligent parsing
+- 📤 **Simple Upload**: Upload `.txt` transcript files with one click
+- 🤖 **AI-Powered**: Uses LangGraph + Ollama (TinyLlama) for intelligent analysis
+- 📋 **Structured Output**: Automatically extracts 5 key components
+- 🎯 **Smart Detection**: Finds task owners, due dates, and priorities automatically
+- 💻 **Beautiful UI**: Clean, modern Streamlit interface
+- ⚡ **100% Local**: All processing happens on your machine (no cloud APIs needed!)
+- 🚀 **Easy Deployment**: Deploy to Streamlit Cloud in minutes
+- 📥 **Export Ready**: Download results as JSONfor intelligent parsing
 - 📋 **Structured Output**: Extracts Summary, Action Items, Decisions, Risks, and Speakers
 - 🎯 **Smart Inference**: Automatically identifies task owners, due dates, and priorities
 - 💬 **ChatGPT-like UI**: Modern, responsive interface with dark theme
@@ -36,68 +42,56 @@ flowchart TD
 - 🐳 **Docker Ready**: Single-command deployment with Docker Compose
 
 ## 🚀 Quick Start
+ (3 Steps!)
 
-### 🎯 Two Deployment Options
+### Step 1: Install Ollama
 
-Choose the deployment method that works best for you:
+Ollama runs the AI model locally on your computer.
 
-#### Option 1: Streamlit (Recommended for Easy Deployment) ⭐
+```bash
+# Download and install from: https://ollama.ai/download
+# Then download the TinyLlama model (small and fast)
+ollama pull tinyllama
+```
 
-**Perfect for:** Quick deployment, cloud hosting, simple setup
+### Step 2: Install Dependencies
 
-1. **Install Ollama and download the model:**
-   ```bash
-   # Install Ollama: https://ollama.ai/download
+```bash
+# Navigate to project folder
+cd Clarify_Meet_AI
 
-   # Pull TinyLlama model
-   ollama pull tinyllama
-   ```
+# Install Python packages
+pip install -r requirements.txt
+```
 
-2. **Install dependencies and run:**
-   ```bash
-   # Navigate to project directory
-   cd ClarifyMeetAI
+### Step 3: Run the App!
 
-   # Install requirements
-   pip install -r requirements.txt
+```bash
+# Start Streamlit
+streamlit run streamlit_app.py
+```
 
-   # Run Streamlit app
-   streamlit run streamlit_app.py
-   ```
+That's it! Open your browser to **http://localhost:8501** 🎉
 
-3. **Access the application:**
-   - Streamlit UI: http://localhost:8501
+## 📖 Complete Setup Guides
 
-📖 **For Streamlit Cloud deployment, see [STREAMLIT_DEPLOYMENT.md](STREAMLIT_DEPLOYMENT.md)**
+- **[Quick Start Guide](docs/QUICKSTART_STREAMLIT.md)** - Beginner-friendly step-by-step
+- **[Streamlit Cloud Deployment](docs/STREAMLIT_DEPLOYMENT.md)** - Deploy to the cloud
+- **[Deployment Checklist](docs/DEPLOYMENT_CHECKLIST.md)** - Pre-deployment verification
+- **[Testing Guide](docs/TESTING.md)** - Verify your setup
 
-#### Option 2: Docker + FastAPI (Original Version)
+## 🐳 Alternative: Docker Deployment
 
-**Perfect for:** Production deployment, API access, containerization
+For production or API access, use Docker:
 
-1. **Install Ollama and download the model:**
-   ```bash
-   # Install Ollama: https://ollama.ai/download
+```bash
+cd extras/docker
+docker-compose up --build
+```
 
-   # Pull TinyLlama model
-   ollama pull tinyllama
-   ```
+Access at: http://localhost:8000 (includes REST API)
 
-2. **Clone and start the application:**
-   ```bash
-   # Navigate to project directory
-   cd ClarifyMeetAI
-
-   # Build and start with Docker Compose
-   docker-compose up --build
-   ```
-
-3. **Access the application:**
-   - Frontend: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
-   - Health Check: http://localhost:8000/health
-
-📖 **For detailed setup instructions, see [SETUP.md](SETUP.md)**
-
+📖 See [extras/docker/SETUP.md](extras/docker/SETUP.md) for details
 ## 📁 Project Structure
 
 ```
@@ -113,31 +107,43 @@ ClarifyMeetAI/
 │   │   └── services/        # Business logic
 │   ├── agent/               # Legacy agent code
 │   ├── models/              # Data models
-│   ├── utils/               # Utility functions
-│   ├── Dockerfile
-│   └── requirements.txt
-├── frontend/                # Original Static Frontend
-│   ├── index.html          # Main UI
-│   ├── style.css           # Styling
-│   └── app.js              # JavaScript logic
-├── .streamlit/              # 🆕 Streamlit configuration
-│   ├── config.toml         # Theme and settings
-│   └── secrets.toml        # Deployment secrets
-├── docker-compose.yml       # Docker orchestration
-├── requirements.txt         # 🆕 Python dependencies (Streamlit)
-├── packages.txt             # 🆕 System dependencies (Streamlit)
-├── STREAMLIT_DEPLOYMENT.md  # 🆕 Streamlit deployment guide
-├── SETUP.md                 # Detailed setup guide
-└── README.md                # This file
-```
-
-## 💡 Usage Example
-
-### 1. Prepare a Transcript
-
-Create a `.txt` file with speaker-based format:
+### 🎯 Main Files (What You Need)
 
 ```
+Clarify_Meet_AI/
+├── streamlit_app.py          # ⭐ Main Streamlit application
+├── requirements.txt          # Python dependencies
+├── packages.txt              # System packages (for cloud deployment)
+├── .streamlit/
+│   ├── config.toml          # Theme and UI settings
+│   └── secrets.toml         # API keys (not committed to git)
+├── backend/                  # AI Processing Engine
+│   ├── app/
+│   │   ├── langgraph_agent.py  # 🤖 Main AI agent logic
+│   │   ├── config.py        # Configuration settings
+│   │   └── services/        # Text processing utilities
+│   ├── models/              # Data models
+│   └── utils/               # Helper functions
+└── docs/                     # 📚 Documentation
+    ├── QUICKSTART_STREAMLIT.md
+    ├── STREAMLIT_DEPLOYMENT.md
+    ├── DEPLOYMENT_CHECKLIST.md
+    └── TESTING.md
+```
+
+### 📦 Extras (Optional)
+
+```
+extras/
+├── docker/                   # Docker deployment files
+│   ├── docker-compose.yaml
+│   ├─How to Use (Step-by-Step)
+
+### Step 1: Prepare Your Transcript
+
+Create a `.txt` file with speaker labels:
+
+```text
 John: Good morning everyone. Let's start our sprint planning.
 
 Sarah: I'll work on the login page redesign. I can finish it by Friday.
@@ -149,37 +155,72 @@ John: Decision: We will use JWT tokens for authentication.
 Sarah: One risk - the design needs approval from stakeholders first.
 ```
 
-### 2. Upload and Process
+**💡 Tips for better results:**
+- Use clear speaker labels (e.g., "John:", "Sarah:")
+- Mention dates explicitly ("by Friday", "next Monday")
+- Include "I will" statements for action owners
+- Mark decisions clearly ("Decision:", "We decided")
+- Note risks ("Risk:", "Concern:", "Issue:")
 
-1. Open http://localhost:8000
-2. Drag and drop your transcript file
-3. Enter meeting title and date
-4. Click "Process Transcript"
+### Step 2: Upload to the  Purpose |
+|-----------|-----------|---------|
+| **Frontend** | Streamlit 1.31.0 | Beautiful web interface |
+| **AI Framework** | LangGraph 0.0.20 | Orchestrates AI workflow |
+| **LLM** | Ollama + TinyLlama | Local AI model (no API costs!) |
+| **Language** | Python 3.11+ | Backend processing |
+| **Deployment** | Streamlit Cloud / Docker | Easy cloud hosting |
 
-### 3. View Results
+### Why These Technologies?
+ (Output Details)
 
-The AI will extract:
+### 📋 Executive Summary
+- 3-5 bullet points covering meeting highlights
+- AI-generated from full transcript context
+- Easy to share with stakeholders
 
-- **Summary**: Brief overview of the meeting
-- **Action Items**: Tasks with owners, due dates, priorities, and confidence scores
-- **Decisions**: Key decisions made during the meeting
-- **Risks**: Identified risks and open questions
-- **Speakers**: List of participants with their roles
+### ✅ Action Items
+Each action includes:
+- **Description** - What needs to be done
+- **Owner** - Who's responsible (auto-detected from "I'll" statements)
+- **Due Date** - Converts "tomorrow", "Friday", "next week" to actual dates
+- **Priority** - High/Medium/Low based on urgency keywords
+- **Status** - Pending (default)
 
-## 🛠️ Technology Stack
+**Example:**
+```json
+{
+  "description": "Work on login page redesign",
+  "owner": "Sarah",
+  "due_date": "2026-01-17",
+  "priority": "Medium",
+  "status": "Pending"
+}
+```
 
-| Component | Technology |
-|-----------|-----------|
-| **Backend** | Python 3.11, FastAPI 0.109.0 |
-| **AI/Agent** | LangGraph 0.0.20, LangChain 0.1.0 |
-| **LLM** | Ollama + TinyLlama (local inference) |
-| **Frontend** | Streamlit 1.31.0 (new) OR HTML5, CSS3, Vanilla JS (original) |
-| **Deployment** | Streamlit Cloud, Docker, Docker Compose, Uvicorn |
-| **Storage** | In-memory (stateless, session-based) |
+### 💡 Decisions
+- **Decision** - What was decided
+- **Rationale** - Why it was decided
+- **Owner** - Who made the decision
+- *🌟 Example Use Cases
 
-## 🎯 What Gets Extracted
+### For Team Meetings
+- Sprint planning sessions
+- Retrospectives
+- Daily standups
+- Design reviews
+- Architecture discussions
 
-### Action Items
+### For Client Meetings
+- Requirements gathering
+- Status updates
+- Stakeholder reviews
+- Decision-making sessions
+
+### For Project Management
+- Automatically track action items
+- Generate meeting summaries
+- Identify risks early
+- Monitor decision history Action Items
 - **Description**: What needs to be done
 - **Owner**: Who is responsible (auto-inferred from "I'll" statements)
 - **Due Date**: When it's due (converts relative dates like "tomorrow")
@@ -199,101 +240,178 @@ The AI will extract:
 ### Speakers
 - **Name**: Speaker name
 - **Role**: Auto-inferred from context (Developer, QA, PM, etc.)
-- **Action Count**: Number of actions assigned to them
+- **AcCommon Issues & Solutions
 
-## 🔧 API Reference
+### ❌ "Connection refused" or "Ollama not accessible"
 
-### POST `/api/process`
-
-Process a meeting transcript and extract structured information.
-
-**Request:**
-- `file`: .txt file (multipart/form-data)
-- `meeting_title`: String
-- `meeting_date`: ISO date string (YYYY-MM-DD)
-
-**Response:**
-```json
-{
-  "session_id": "uuid",
-  "meeting_title": "Sprint Planning",
-  "meeting_date": "2024-12-05",
-  "summary": "Team discussed...",
-  "actions": [...],
-  "decisions": [...],
-  "risks": [...],
-  "speakers": [...],
-  "warnings": [...]
-}
-```
-
-### GET `/health`
-
-Check application and Ollama connection health.
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "ollama_status": "connected",
-  "ollama_model": "tinyllama"
-}
-```
-
-## 🐛 Troubleshooting
-
-### Ollama Connection Issues
-
+**Problem:** Ollama isn't running  
+**Solution:**
 ```bash
-# Verify Ollama is running
+# Check if Ollama is running
 curl http://localhost:11434/api/tags
 
-# Restart Ollama if needed
-ollama serve
+# If not, start it (it usually auto-starts)
+# Windows: Check system tray for Ollama icon
+# Mac/Linux: ollama serve
 ```
 
-### Port Already in Use
+### ❌ "Model 'tinyllama' not found"
 
+**Problem:** Model not downloaded  
+**Solution:**
 ```bash
-# Change port in docker-compose.yml
-ports:
-  - "8080:8000"  # Use 8080 instead
-```
-
-### Model Not Found
-
-```bash
-# Pull the required model
 ollama pull tinyllama
-
-# Verify it's available
-ollama list
+ollama list  # Verify it's there
 ```
 
-For more troubleshooting, see [SETUP.md](SETUP.md#troubleshooting).
+### ❌ "Module not found: streamlit"
 
-## 🔐 Security Notes
+**Problem:** Dependencies not installed  
+**Solution:**
+```bash
+pip install -r requirements.txt
+```
 
-- **Local Processing**: All data is processed locally, no external API calls
-- **In-Memory Storage**: Sessions are stored in memory (no persistent database)
-- **No Authentication**: Current version has no auth (add for production use)
-- **File Validation**: Only `.txt` files accepted, max 10MB
+### � Privacy & Security
 
-## 🚧 Roadmap / Future Enhancements
+✅ **100% Local Processing** - Your data never leaves your computer  
+✅ **No Cloud APIs** - No data sent to OpenAI, Google, etc.  
+✅ **No Storage** - Transcripts processed in-memory only  
+✅ **Open Source** - Review all code yourself  
 
-- [ ] PDF/DOCX export functionality
-- [ ] Persistent storage (Redis/PostgreSQL)
-- [ ] User authentication & multi-tenancy
-- [ ] Real-time collaboration features
-- [ ] Integration with video conferencing tools (Zoom, Teams, Meet)
+**Note:** For production use, consider adding:
+- User authentication
+- Access control
+- HTTPS/SSL
+- Data encryption
+
+## 🎨 Customization Options
+
+### Change the AI Model
+
+Edit `backend/app/config.py`:
+```python
+OLLAMA_MODEL: str = "llama2"  # or mistral, codellama, etc.
+```
+
+Then download the model:
+```bash
+ollama pull llama2
+```
+
+### Modify UI Theme
+
+Edit `.streamlit/config.toml`:
+```toml
+[theme]
+primaryColor = "#FF4B4B"  # Change accent color
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+```
+
+### Adjust Extraction Logic
+
+Edit `backend/app/langgraph_agent.py` to customize:
+- Prompt templates
+- Extraction rules
+- Validation logic
+- Output format
+
+## 🚧 Roadmap & Future Plans
+
+- [ ] PDF/DOCX export
+- [ ] Audio transcription support
 - [ ] Multi-language support
-- [ ] Advanced analytics and insights
+- [ ] Calendar integration (Google Calendar, Outlook)
 - [ ] Email notifications for action items
-- [ ] Calendar integration for due dates
-- [ ] Support for audio file transcription
+- [ ] Persistent storage option
+- [ ] User authentication
+We welcome contributions! Here's how:
 
-## 📝 Customization
+1. **Fork** this repository
+2. **Create** a feature branch: `git checkout -b feature/my-feature`
+3. **Make** your changes
+4. **Test** thoroughly
+5. **Commit**: `git commit -m 'Add my feature'`
+6. **Push**: `git push origin feature/my-feature`
+7. **Open** a Pull Request
 
+### Ideas for Contributions
+
+- Add new extraction features
+- Improve AI prompts
+- Enhance UI/UX
+- Add more language support
+- Write more tests
+- Improve documentation
+
+## 📝 What We Built - Complete Overview
+
+This project transforms raw meeting transcripts into actionable insights using:
+
+### Architecture
+1. **Frontend** - Streamlit web interface (Python-based)
+2. **Backend** - LangGraph agent workflow engine
+3. **AI Engine** - Ollama running TinyLlama locally
+4. **Processing Pipeline**:
+   - Text cleaning & normalization
+   - Speaker identification
+   - Context understanding via LLM
+   - Information extraction (actions, decisions, risks)
+   - Validation & warning generation
+   - JSON output formatting
+
+### Key Innovations
+- ✅ 100% local processing (no cloud dependencies)
+- ✅ Smart date conversion ("tomorrow" → "2026-01-14")
+- ✅ Automatic owner assignment from "I'll" statements
+- ✅ Priority detection from urgency keywords
+- ✅ Role inference (PM, Developer, QA, Designer)
+- ✅ Confidence scoring for reliability
+- ✅ Fallback parser if LLM fails
+
+### Deployment Options
+1. **Local** - Run on your laptop with Streamlit
+2. **Cloud** - Deploy to Streamlit Cloud (free tier available)
+3. **Docker** - Containerized deployment for production
+4. **API Mode** - Use FastAPI backend (in extras/)
+
+## 📚 Documentation
+
+- **[Quick Start](docs/QUICKSTART_STREAMLIT.md)** - Get started in 5 minutes
+- **[Deployment Guide](docs/STREAMLIT_DEPLOYMENT.md)** - Deploy to cloud
+- **[Testing Guide](docs/TESTING.md)** - Verify your setup
+- **[Migration Summary](docs/MIGRATION_SUMMARY.md)** - What we changed
+- **[Deployment Checklist](docs/DEPLOYMENT_CHECKLIST.md)** - Pre-launch checklist
+
+## 🙏 Acknowledgments
+
+Built with amazing open-source technologies:
+
+- **[Ollama](https://ollama.ai)** - Local LLM runtime
+- **[LangGraph](https://github.com/langchain-ai/langgraph)** - AI workflow orchestration
+- **[Streamlit](https://streamlit.io)** - Beautiful Python web apps
+- **[TinyLlama](https://github.com/jzhang38/TinyLlama)** - Efficient language model
+- **[LangChain](https://www.langchain.com)** - LLM framework
+
+## 📞 Support & Questions
+
+- 📖 **Documentation**: Check [docs/](docs/) folder
+- 🐛 **Bug Reports**: Open a GitHub issue
+- 💡 **Feature Requests**: Open a GitHub discussion
+- ❓ **Questions**: See [docs/TESTING.md](docs/TESTING.md)
+
+## 📄 License
+
+This project is open source and available for educational purposes.
+
+---
+
+**Built with ❤️ using AI, LangGraph, and Streamlit**
+
+**Status**: ✅ Production-ready | **Last Updated**: January 2026
+
+**Made by**: GenAI Enthusiasts 🚀
 ### Modify Extraction Prompts
 
 Edit `backend/agent/prompts.py` to customize how the AI extracts information:
