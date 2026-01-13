@@ -1,4 +1,5 @@
-# ClarifyMeet AI 🤖: https://clarifymeetai-btra6m4p2msf5es6z9rdnc.streamlit.app/
+# ClarifyMeet AI 🤖
+Link: https://clarifymeetai-btra6m4p2msf5es6z9rdnc.streamlit.app/
 
 > Transform meeting conversations into actionable insights using AI
 
