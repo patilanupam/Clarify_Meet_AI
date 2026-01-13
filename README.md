@@ -9,6 +9,19 @@ ClarifyMeet AI is an intelligent meeting minutes generation tool that automatica
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688)
 ![Docker](https://img.shields.io/badge/docker-ready-2496ED)
 
+## 📊 Workflow
+
+```mermaid
+flowchart TD
+    A[Upload Transcript (.txt)] --> B[Validate & Extract Text]
+    B --> C[Identify Speakers/Actors]
+    C --> D[Summarize Meeting]
+    D --> E[Extract Action Items]
+    E --> F[Extract Decisions]
+    F --> G[Identify Risks]
+    G --> H[Format Structured Minutes (JSON)]
+    H --> I[Return to Frontend]
+```
 
 ## ✨ Features
 
@@ -24,12 +37,42 @@ ClarifyMeet AI is an intelligent meeting minutes generation tool that automatica
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### 🎯 Two Deployment Options
 
-- Docker Desktop (Windows/Mac) or Docker Engine (Linux)
-- Ollama installed and running on host machine
+Choose the deployment method that works best for you:
 
-### Installation
+#### Option 1: Streamlit (Recommended for Easy Deployment) ⭐
+
+**Perfect for:** Quick deployment, cloud hosting, simple setup
+
+1. **Install Ollama and download the model:**
+   ```bash
+   # Install Ollama: https://ollama.ai/download
+
+   # Pull TinyLlama model
+   ollama pull tinyllama
+   ```
+
+2. **Install dependencies and run:**
+   ```bash
+   # Navigate to project directory
+   cd ClarifyMeetAI
+
+   # Install requirements
+   pip install -r requirements.txt
+
+   # Run Streamlit app
+   streamlit run streamlit_app.py
+   ```
+
+3. **Access the application:**
+   - Streamlit UI: http://localhost:8501
+
+📖 **For Streamlit Cloud deployment, see [STREAMLIT_DEPLOYMENT.md](STREAMLIT_DEPLOYMENT.md)**
+
+#### Option 2: Docker + FastAPI (Original Version)
+
+**Perfect for:** Production deployment, API access, containerization
 
 1. **Install Ollama and download the model:**
    ```bash
@@ -59,24 +102,33 @@ ClarifyMeet AI is an intelligent meeting minutes generation tool that automatica
 
 ```
 ClarifyMeetAI/
+├── streamlit_app.py         # 🆕 Streamlit application (new!)
 ├── backend/                  # FastAPI Backend
 │   ├── main.py              # Application entry point
-│   ├── agent/               # LangGraph agent logic
-│   │   ├── langgraph_agent.py
-│   │   └── prompts.py
-│   ├── models/              # Pydantic schemas
-│   │   └── minutes.py
+│   ├── app/                 # Main application code
+│   │   ├── main.py          # FastAPI routes
+│   │   ├── config.py        # Configuration
+│   │   ├── langgraph_agent.py  # LangGraph agent
+│   │   ├── schemas.py       # Pydantic models
+│   │   └── services/        # Business logic
+│   ├── agent/               # Legacy agent code
+│   ├── models/              # Data models
 │   ├── utils/               # Utility functions
-│   │   └── transcript_parser.py
 │   ├── Dockerfile
 │   └── requirements.txt
-├── frontend/                # Static Frontend
+├── frontend/                # Original Static Frontend
 │   ├── index.html          # Main UI
 │   ├── style.css           # Styling
 │   └── app.js              # JavaScript logic
-├── docker-compose.yml      # Docker orchestration
-├── SETUP.md               # Detailed setup guide
-└── README.md              # This file
+├── .streamlit/              # 🆕 Streamlit configuration
+│   ├── config.toml         # Theme and settings
+│   └── secrets.toml        # Deployment secrets
+├── docker-compose.yml       # Docker orchestration
+├── requirements.txt         # 🆕 Python dependencies (Streamlit)
+├── packages.txt             # 🆕 System dependencies (Streamlit)
+├── STREAMLIT_DEPLOYMENT.md  # 🆕 Streamlit deployment guide
+├── SETUP.md                 # Detailed setup guide
+└── README.md                # This file
 ```
 
 ## 💡 Usage Example
@@ -121,8 +173,8 @@ The AI will extract:
 | **Backend** | Python 3.11, FastAPI 0.109.0 |
 | **AI/Agent** | LangGraph 0.0.20, LangChain 0.1.0 |
 | **LLM** | Ollama + TinyLlama (local inference) |
-| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
-| **Deployment** | Docker, Docker Compose, Uvicorn |
+| **Frontend** | Streamlit 1.31.0 (new) OR HTML5, CSS3, Vanilla JS (original) |
+| **Deployment** | Streamlit Cloud, Docker, Docker Compose, Uvicorn |
 | **Storage** | In-memory (stateless, session-based) |
 
 ## 🎯 What Gets Extracted
